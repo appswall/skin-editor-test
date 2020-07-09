@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Minecraft skin editor</title>
+<meta charset="utf-8"/>
+</head>
+<body>
+<style>
+canvas{
+pointer-events: none;
+}
+#colorMaster{
+position:fixed;
+top:0px;
+right:0px;
+pointer-events: none;
+}
+input{
+  pointer-events:auto;
+}
+#parent{
+position:relative;
+top:0px;
+left:0px;
+}
+.mainCanvases{
+position:absolute;
+top:0px;
+left:0px;
+}
+</style>
+<div id="parent">
+<canvas id="canvas" width="690" height="1840" class="mainCanvases"></canvas>
+<canvas id="grid" width="690" height="1840" class="mainCanvases"></canvas>
+<canvas id="pointerCanvas" width="690" height="1840" class="mainCanvases"></canvas>
+</div>
+<canvas id="toDownload" style="display:none" width="64" height="64"></canvas>
+<div id="colorMaster">
+<p>r:<input type="range" min="0" max="255" onchange="colorChange()" id="red" value="0"/></p>
+<p>g:<input type="range" min="0" max="255" onchange="colorChange()" id="green" value="0"/></p>
+<p>b:<input type="range" min="0" max="255" onchange="colorChange()" id="blue" value="0"/></p>
+<p>size:<input type="range" min="0" max="2" onchange="colorChange()" id="size" value="0"/></p>
+<canvas id="colorP"width="50" height="50"></canvas>
+</div>
+<script>
+"use strict"
+let canvas=document.getElementById("canvas");
+let ctx=canvas.getContext("2d");
+let mouseEffect=false,color,colorP=document.getElementById("colorP").getContext("2d"),masterTime=false,sizeOfPen;
+let grid=document.getElementById("grid").getContext("2d");
+let pointerCanvas=document.getElementById("pointerCanvas").getContext("2d");
+ctx.textAlign="left";
+ctx.font="40px serif";
+function draw(){
+ctx.clearRect(0,0,690,1840);
+ctx.fillText("head",0,50);
+ctx.fillText("head2",350,50);
+ctx.fillText("body",0,390);
+ctx.fillText("body2",350,390);
+colorChange();
+grid.strokeStyle="#888888";
+for(let j=0;j<184;j++){
+for(let i=0;i<69;i++){
+if(i*10>=0&&i*10<=319&&j*10>=180&&j*10<=259||i*10>=80&&i*10<=159&&j*10>=100&&j*10<=339||
+i*10>=350&&i*10<=669&&j*10>=180&&j*10<=259||i*10>=430&&i*10<=509&&j*10>=100&&j*10<=339||
+i*10>=0&&i*10<=239&&j*10>=480&&j*10<=599||i*10>=40&&i*10<=119&&j*10>=440&&j*10<=639){
+grid.strokeRect(i*10,j*10,10,10);
+pointerCanvas.strokeStyle="orange";
+}
+}
+}
+}
+onload=draw;
+onmousemove=secondDraw;
+function secondDraw(e){
+pointerCanvas.clearRect(0,0,1840,690);
+if(e.offsetX>=0&&e.offsetX<=319&&e.offsetY>=180&&e.offsetY<=259||e.offsetX>=80&&e.offsetX<=159&&e.offsetY>=100&&e.offsetY<=339||
+e.offsetX>=350&&e.offsetX<=669&&e.offsetY>=180&&e.offsetY<=259||e.offsetX>=430&&e.offsetX<=509&&e.offsetY>=100&&e.offsetY<=339||
+e.offsetX>=0&&e.offsetX<=239&&e.offsetY>=480&&e.offsetY<=599||e.offsetX>=40&&e.offsetX<=119&&e.offsetY>=440&&e.offsetY<=639){
+if(mouseEffect){
+for(let i=-sizeOfPen;i<sizeOfPen+1;i++){
+for(let j=-sizeOfPen;j<sizeOfPen+1;j++){
+if(e.offsetX+i*10>=0&&e.offsetX+i*10<=319&&e.offsetY+j*10>=180&&e.offsetY+j*10<=259||e.offsetX+i*10>=80&&e.offsetX+i*10<=159&&e.offsetY+j*10>=100&&e.offsetY+j*10<=339||
+e.offsetX+i*10>=350&&e.offsetX+i*10<=669&&e.offsetY+j*10>=180&&e.offsetY+j*10<=259||e.offsetX+i*10>=430&&e.offsetX+i*10<=509&&e.offsetY+j*10>=100&&e.offsetY+j*10<=339||
+e.offsetX+i*10>=0&&e.offsetX+i*10<=239&&e.offsetY+j*10>=480&&e.offsetY+j*10<=599||e.offsetX+i*10>=40&&e.offsetX+i*10<=119&&e.offsetY+j*10>=440&&e.offsetY+j*10<=639){
+ctx.fillRect(Math.floor(e.offsetX/10)*10+i*10,Math.floor(e.offsetY/10)*10+j*10,10,10);
+}
+}
+}
+}
+pointerCanvas.strokeRect(Math.floor(e.offsetX/10)*10,Math.floor(e.offsetY/10)*10,10,10);
+}
+}
+onmousedown=(e)=>{
+if(masterTime){
+console.log("It's master time!!");
+}else{
+mouseEffect=true;
+secondDraw(e);
+}
+}
+onmouseup=()=> mouseEffect=false;
+function colorChange(){
+color=`#${hex(document.getElementById("red").value)}${hex(document.getElementById("green").value)}${hex(document.getElementById("blue").value)}`;
+ctx.fillStyle=color;
+colorP.fillStyle=color;
+colorP.fillRect(0,0,50,50);
+sizeOfPen=parseInt(document.getElementById("size").value);
+}
+function hex(e){
+let dummyNumber=parseInt(e).toString(16);
+dummyNumber=dummyNumber<16?"0"+dummyNumber:dummyNumber;
+return dummyNumber;
+}
+document.getElementById("colorMaster").onmouseover=()=>{
+masterTime=true;
+}
+document.getElementById("colorMaster").onmouseleave=()=>{
+masterTime=false;
+}
+//一つのcanvasでやった方がよくね？　　tableとgetBoundingClientRect()の使い方も覚えておこう!
+//いや、offsetX便利すぎ、
+</script>
+</html>
