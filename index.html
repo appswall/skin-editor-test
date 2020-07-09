@@ -118,6 +118,23 @@ masterTime=true;
 document.getElementById("colorMaster").onmouseleave=()=>{
 masterTime=false;
 }
+ontouchstart=(e)=>{
+if(masterTime){
+console.log("It's master time!!");
+}else{
+mouseEffect=true;
+secondDraw(e);
+}
+}
+ontouchend=()=> mouseEffect=false;
+function colorChange(){
+color=`#${hex(document.getElementById("red").value)}${hex(document.getElementById("green").value)}${hex(document.getElementById("blue").value)}`;
+ctx.fillStyle=color;
+colorP.fillStyle=color;
+colorP.fillRect(0,0,50,50);
+sizeOfPen=parseInt(document.getElementById("size").value);
+}
+ontouchmove=secondDraw;
 //一つのcanvasでやった方がよくね？　　tableとgetBoundingClientRect()の使い方も覚えておこう!
 //いや、offsetX便利すぎ、
 </script>
