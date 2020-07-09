@@ -91,7 +91,7 @@ ctx.fillRect(Math.floor(e.offsetX/10)*10+i*10,Math.floor(e.offsetY/10)*10+j*10,1
 pointerCanvas.strokeRect(Math.floor(e.offsetX/10)*10,Math.floor(e.offsetY/10)*10,10,10);
 }
 }
-onmousedown=(e)=>{
+onmousedown=function(e){
 if(masterTime){
 console.log("It's master time!!");
 }else{
@@ -118,7 +118,7 @@ masterTime=true;
 document.getElementById("colorMaster").onmouseleave=()=>{
 masterTime=false;
 }
-ontouchstart=(e)=>{
+ontouchstart=function(e){
 if(masterTime){
 console.log("It's master time!!");
 }else{
@@ -139,3 +139,4 @@ ontouchmove=secondDraw;
 //いや、offsetX便利すぎ、
 </script>
 </html>
+
