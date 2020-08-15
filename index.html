@@ -28,6 +28,9 @@ a{
 color:black;
 text-decoration: none;
 }
+img{
+border-width:5px 1.25em;
+}
 </style>
 <div id="parent">
 <canvas id="canvas" width="690" height="1840" class="mainCanvases"></canvas>
@@ -42,7 +45,8 @@ text-decoration: none;
 <p>size:<input type="range" min="0" max="2" onchange="colorChange()" id="size" value="0"/></p>
 <p><img src="pen.jpg" width="50" height="50" onclick="pen()" id="pen"/></p>
 <p><img src="picker.jpg" width="50" height="50" onclick="picker()" id="picker"/></p>
-<p><img src="eraser.jpg" width="50" height="50" onclick="eraser()" id="picker"/></p>
+<p><img src="eraser.jpg" width="50" height="50" onclick="eraser()" id="eraser"/></p>
+<p><img src="penki.jpg" width="50" height="50" onclick="penki()" id="penki"/></p>
 <canvas id="colorP"width="50" height="50"></canvas>
 <p><a id="download" download="skin.png">download</a></p>
 <p id="upload" onclick="upload()">upload</p>
@@ -67,6 +71,7 @@ toDownloadData=[[100,8,8,8,0,0,32,0],
 ],
 timer=NaN,fileReader=new FileReader();
 let uploadImage=document.getElementById("uploadImage");
+let ImFree=false;
 //about three.js
 let renderer=new THREE.WebGLRenderer(),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(60,2/3,1,1000),/*loader=new THREE.TextureLoader(),*/
 //mat=[new THREE.MeshBasicMaterial({transparent: true,map:new THREE.Texture(document.getElementById("pen"))}),new THREE.MeshBasicMaterial({transparent: true,map:new THREE.Texture(document.getElementById("pen"))}),new THREE.MeshBasicMaterial({transparent: true,map:new THREE.Texture(document.getElementById("pen"))}),new THREE.MeshBasicMaterial({transparent: true,map:new THREE.Texture(document.getElementById("pen"))}),new THREE.MeshBasicMaterial({transparent: true,map:new THREE.Texture(document.getElementById("pen"))}),new THREE.MeshBasicMaterial({transparent: true,map:new THREE.Texture(document.getElementById("pen"))})],
@@ -113,7 +118,7 @@ toDownloadData[2][1]=3;
 toDownloadData[3][1]=3;
 }
 //toDownload.scale(1/10,1/10);
-timer=setInterval(tick,100);                   //tick for render
+//timer=setInterval(tick,100);                   //tick for render
 function draw(){
 ctx.clearRect(0,0,690,1840);
 ctx.fillText("head",0,70);
@@ -171,6 +176,69 @@ if(gridJudgement(e.offsetX,e.offsetY)){
 ctx.clearRect(Math.floor(e.offsetX/10)*10+i*10,Math.floor(e.offsetY/10)*10+j*10,10,10);
 }
 }
+}
+break;
+case "penki":
+/*var originalColor=ctx.getImageData(Math.floor(e.offsetX/10)*10,Math.floor(e.offsetY/10)*10,1,1).data;
+var penkiData=[[[Math.floor(e.offsetX/10)*10,Math.floor(e.offsetY/10)*10]]];
+var count=0;
+console.log(penkiData[0].length);
+while(penkiData[0].length){
+penkiData[1]=[];
+console.log(penkiData);
+for(let i=0;i<penkiData[0].length;i++){
+ctx.fillRect(penkiData[0][i][0],penkiData[0][i][1],10,10);
+if(ctx.getImageData(penkiData[0][i][0]-10,penkiData[0][i][1],1,1).data.toString()==originalColor&&gridJudgement(penkiData[0][i][0]-10,penkiData[0][i][1])){
+penkiData[1].push([penkiData[0][i][0]-10,penkiData[0][i][1]]);
+ctx.fillRect(penkiData[0][i][0]-10,penkiData[0][i][1],10,10);
+}
+if(ctx.getImageData(penkiData[0][i][0]+10,penkiData[0][i][1],1,1).data.toString()==originalColor&&gridJudgement(penkiData[0][i][0]+10,penkiData[0][i][1])){
+penkiData[1].push([penkiData[0][i][0]+10,penkiData[0][i][1]]);
+ctx.fillRect(penkiData[0][i][0]+10,penkiData[0][i][1],10,10);
+}
+if(ctx.getImageData(penkiData[0][i][0],penkiData[0][i][1]-10,1,1).data.toString()==originalColor&&gridJudgement(penkiData[0][i][0],penkiData[0][i][1]-10)){
+penkiData[1].push([penkiData[0][i][0],penkiData[0][i][1]-10]);
+ctx.fillRect(penkiData[0][i][0],penkiData[0][i][1]-10,10,10);
+}
+if(ctx.getImageData(penkiData[0][i][0],penkiData[0][i][1]+10,1,1).data.toString()==originalColor&&gridJudgement(penkiData[0][i][0],penkiData[0][i][1]+10)){
+penkiData[1].push([penkiData[0][i][0],penkiData[0][i][1]+10]);
+ctx.fillRect(penkiData[0][i][0],penkiData[0][i][1]+10,10,10);
+}
+
+
+}
+penkiData.shift();
+count++;
+if(count>10){
+break;
+}
+}*/
+console.log(ImFree);
+if(ImFree){
+ImFree=false;
+var originalColor=ctx.getImageData(Math.floor(e.offsetX/10)*10,Math.floor(e.offsetY/10)*10,1,1).data.toString();
+var penkiData=[[Math.floor(e.offsetX/10)*10,Math.floor(e.offsetY/10)*10]];
+while(penkiData.length){
+if(ctx.getImageData(penkiData[0][0]-10,penkiData[0][1],1,1).data.toString()==originalColor&&gridJudgement(penkiData[0][0]-10,penkiData[0][1])){
+penkiData.push([penkiData[0][0]-10,penkiData[0][1]]);
+ctx.fillRect(penkiData[0][0]-10,penkiData[0][1],10,10);
+}
+if(ctx.getImageData(penkiData[0][0]+10,penkiData[0][1],1,1).data.toString()==originalColor&&gridJudgement(penkiData[0][0]+10,penkiData[0][1])){
+penkiData.push([penkiData[0][0]+10,penkiData[0][1]]);
+ctx.fillRect(penkiData[0][0]+10,penkiData[0][1],10,10);
+}
+if(ctx.getImageData(penkiData[0][0],penkiData[0][1]-10,1,1).data.toString()==originalColor&&gridJudgement(penkiData[0][0],penkiData[0][1]-10)){
+penkiData.push([penkiData[0][0],penkiData[0][1]-10]);
+ctx.fillRect(penkiData[0][0],penkiData[0][1]-10,10,10);
+}
+if(ctx.getImageData(penkiData[0][0],penkiData[0][1]+10,1,1).data.toString()==originalColor&&gridJudgement(penkiData[0][0],penkiData[0][1]+10)){
+penkiData.push([penkiData[0][0],penkiData[0][1]+10]);
+ctx.fillRect(penkiData[0][0],penkiData[0][1]+10,10,10);
+}
+penkiData.shift();
+console.log(penkiData);
+}
+ImFree=true;
 }
 break;
 }
@@ -275,7 +343,7 @@ ifUploaded();
 }
 function hex(e){
 var dummyNumber=parseInt(e).toString(16);
-dummyNumber=dummyNumber<16?"0"+dummyNumber:dummyNumber;
+dummyNumber=(parseInt(dummyNumber,16)<16)?"0"+dummyNumber:dummyNumber;
 return dummyNumber;
 }
 document.getElementById("colorMaster").onmouseover=()=>{
@@ -285,6 +353,10 @@ document.getElementById("colorMaster").onmouseleave=()=>{
 masterTime=false;
 }
 function pen(){
+document.getElementById("pen").style.borderColor="orange";
+document.getElementById("picker").style.borderColor="black";
+document.getElementById("eraser").style.borderColor="black";
+document.getElementById("penki").style.borderColor="black";
 effectOfPen="pen";
 }
 function picker(){
@@ -293,9 +365,9 @@ effectOfPen="picker";
 function eraser(){
 effectOfPen="eraser";
 }
-/*function tick(){
-
-}*/
+function penki(){
+effectOfPen="penki";
+}
 
 
 //未完成　textureをキャンバスからdataurlにして張ろうっていう試み。
@@ -464,6 +536,7 @@ ctx.fillRect(toDownloadData[k][3]*10+j*10,toDownloadData[k][0]+i*10,10,10);
 }
 
 var a=toDownload.getImageData(toDownloadData[k][4],toDownloadData[k][5]+toDownloadData[k][3],(toDownloadData[k][1]+toDownloadData[k][3])*2,toDownloadData[k][2]);
+console.log(a);
 for(let i=0;i<a.height;i++){
 for(let j=0;j<a.width;j++){
 ctx.fillStyle="#"+hex(a.data[(i*a.width+j)*4])+hex(a.data[(i*a.width+j)*4+1])+hex(a.data[(i*a.width+j)*4+2]);
@@ -518,10 +591,13 @@ ctx.globalAlpha=1;
 uploaded=false;
 }
 }
+ImFree=true;
+timer=setInterval(tick,100);
 //一つのcanvasでやった方がよくね？　　tableとgetBoundingClientRect()の使い方も覚えておこう!
 //いや、offsetX便利すぎ、
 //imagedata配列の%10==0の要素のみを抽出する。
 //r:front gray:left green:back white:right blue:top
 //cubeのtextureの向き合わねえからplaneにするかも
+//ローカルで呼ばれた画像を貼ったcanvasは汚染され、getImageDataなどが使えなくなる
 </script>
 </html>
