@@ -523,6 +523,7 @@ uploaded=true;
 function ifUploaded(){
 if(uploaded){
 console.log("c");
+toDownload.clearRect(0,0,64,64);
 toDownload.drawImage(uploadImage,0,0);
 for(let k=0;k<6;k++){
 var a=toDownload.getImageData(toDownloadData[k][4]+toDownloadData[k][3],toDownloadData[k][5],toDownloadData[k][1],toDownloadData[k][3]);
