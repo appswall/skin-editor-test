@@ -57,6 +57,7 @@ border-width:5px 1.25em;
 <script src="three.min.js"></script>
 <script src="TextureLoader.js"></script>
 <script src="CanvasTexture.js"></script>
+<script src="minecraftdata.js"></script>
 <script>
 "use strict"
 let canvas=document.getElementById("canvas");
@@ -113,10 +114,12 @@ let pointerCanvas=document.getElementById("pointerCanvas").getContext("2d");
 ctx.textAlign="left";
 ctx.font="40px serif";
 let toDownload=document.getElementById("toDownload").getContext("2d");
-if(window.confirm("腕を細くする？")){
+if(window.confirm("alexがいいのか？")){
 toDownloadData[2][1]=3;
 toDownloadData[3][1]=3;
 }
+
+
 //toDownload.scale(1/10,1/10);
 //timer=setInterval(tick,100);                   //tick for render
 function draw(){
@@ -593,6 +596,152 @@ uploaded=false;
 }
 }
 ImFree=true;
+function initSkin(){
+if(toDownloadData[2][1]==3){
+let defaultSkinData=new ImageData(64,64);
+for(let i=0;i<alexData.length;i++)
+defaultSkinData.data[i]=alexData[i];
+toDownload.putImageData(defaultSkinData,0,0);
+for(let k=0;k<6;k++){
+var a=toDownload.getImageData(toDownloadData[k][4]+toDownloadData[k][3],toDownloadData[k][5],toDownloadData[k][1],toDownloadData[k][3]);
+for(let i=0;i<a.height;i++){
+for(let j=0;j<a.width;j++){
+ctx.fillStyle="#"+hex(a.data[(i*a.width+j)*4])+hex(a.data[(i*a.width+j)*4+1])+hex(a.data[(i*a.width+j)*4+2]);
+ctx.globalAlpha=a.data[(i*a.width+j)*4+3]/255;
+ctx.clearRect(toDownloadData[k][3]*10+j*10,toDownloadData[k][0]+i*10,10,10);
+ctx.fillRect(toDownloadData[k][3]*10+j*10,toDownloadData[k][0]+i*10,10,10);
+}
+}
+
+var a=toDownload.getImageData(toDownloadData[k][4],toDownloadData[k][5]+toDownloadData[k][3],(toDownloadData[k][1]+toDownloadData[k][3])*2,toDownloadData[k][2]);
+console.log(a);
+for(let i=0;i<a.height;i++){
+for(let j=0;j<a.width;j++){
+ctx.fillStyle="#"+hex(a.data[(i*a.width+j)*4])+hex(a.data[(i*a.width+j)*4+1])+hex(a.data[(i*a.width+j)*4+2]);
+ctx.globalAlpha=a.data[(i*a.width+j)*4+3]/255;
+ctx.clearRect(0+j*10,toDownloadData[k][0]+toDownloadData[k][3]*10+i*10,10,10);
+ctx.fillRect(0+j*10,toDownloadData[k][0]+toDownloadData[k][3]*10+i*10,10,10);
+}
+}
+
+var a=toDownload.getImageData(toDownloadData[k][4]+toDownloadData[k][3]+toDownloadData[k][1],toDownloadData[k][5],toDownloadData[k][1],toDownloadData[k][3]);
+for(let i=0;i<a.height;i++){
+for(let j=0;j<a.width;j++){
+ctx.fillStyle="#"+hex(a.data[((a.height-1-i)*a.width+a.width-1-j)*4])+hex(a.data[((a.height-1-i)*a.width+a.width-1-j)*4+1])+hex(a.data[((a.height-1-i)*a.width+a.width-1-j)*4+2]);
+ctx.globalAlpha=a.data[((a.height-1-i)*a.width+a.width-1-j)*4+3]/255;
+ctx.clearRect(toDownloadData[k][3]*10+j*10,toDownloadData[k][0]+(toDownloadData[k][2]+toDownloadData[k][3])*10+i*10,10,10);
+ctx.fillRect(toDownloadData[k][3]*10+j*10,toDownloadData[k][0]+(toDownloadData[k][2]+toDownloadData[k][3])*10+i*10,10,10);
+}
+}
+
+
+var a=toDownload.getImageData(toDownloadData[k][6]+toDownloadData[k][3],toDownloadData[k][7],toDownloadData[k][1],toDownloadData[k][3]);
+for(let i=0;i<a.height;i++){
+for(let j=0;j<a.width;j++){
+ctx.fillStyle="#"+hex(a.data[(i*a.width+j)*4])+hex(a.data[(i*a.width+j)*4+1])+hex(a.data[(i*a.width+j)*4+2]);
+ctx.globalAlpha=a.data[(i*a.width+j)*4+3]/255;
+ctx.clearRect(toDownloadData[k][3]*10+j*10+350,toDownloadData[k][0]+i*10,10,10);
+ctx.fillRect(toDownloadData[k][3]*10+j*10+350,toDownloadData[k][0]+i*10,10,10);
+}
+}
+
+var a=toDownload.getImageData(toDownloadData[k][6],toDownloadData[k][3]+toDownloadData[k][7],(toDownloadData[k][1]+toDownloadData[k][3])*2,toDownloadData[k][2]);
+for(let i=0;i<a.height;i++){
+for(let j=0;j<a.width;j++){
+ctx.fillStyle="#"+hex(a.data[(i*a.width+j)*4])+hex(a.data[(i*a.width+j)*4+1])+hex(a.data[(i*a.width+j)*4+2]);
+ctx.globalAlpha=a.data[(i*a.width+j)*4+3]/255;
+ctx.clearRect(0+j*10+350,toDownloadData[k][0]+toDownloadData[k][3]*10+i*10,10,10);
+ctx.fillRect(0+j*10+350,toDownloadData[k][0]+toDownloadData[k][3]*10+i*10,10,10);
+}
+}
+
+var a=toDownload.getImageData(toDownloadData[k][6]+toDownloadData[k][3]+toDownloadData[k][1],toDownloadData[k][7],toDownloadData[k][1],toDownloadData[k][3]);
+for(let i=0;i<a.height;i++){
+for(let j=0;j<a.width;j++){
+ctx.fillStyle="#"+hex(a.data[((a.height-1-i)*a.width+a.width-1-j)*4])+hex(a.data[((a.height-1-i)*a.width+a.width-1-j)*4+1])+hex(a.data[((a.height-1-i)*a.width+a.width-1-j)*4+2]);
+ctx.globalAlpha=a.data[((a.height-1-i)*a.width+a.width-1-j)*4+3]/255;
+ctx.clearRect(toDownloadData[k][3]*10+j*10+350,toDownloadData[k][0]+(toDownloadData[k][2]+toDownloadData[k][3])*10+i*10,10,10);
+ctx.fillRect(toDownloadData[k][3]*10+j*10+350,toDownloadData[k][0]+(toDownloadData[k][2]+toDownloadData[k][3])*10+i*10,10,10);
+}
+}
+}
+ctx.globalAlpha=1;
+uploaded=false;
+}else{
+let defaultSkinData=new ImageData(64,64);
+for(let i=0;i<steveData.length;i++)
+defaultSkinData.data[i]=steveData[i];
+toDownload.putImageData(defaultSkinData,0,0);
+for(let k=0;k<6;k++){
+var a=toDownload.getImageData(toDownloadData[k][4]+toDownloadData[k][3],toDownloadData[k][5],toDownloadData[k][1],toDownloadData[k][3]);
+for(let i=0;i<a.height;i++){
+for(let j=0;j<a.width;j++){
+ctx.fillStyle="#"+hex(a.data[(i*a.width+j)*4])+hex(a.data[(i*a.width+j)*4+1])+hex(a.data[(i*a.width+j)*4+2]);
+ctx.globalAlpha=a.data[(i*a.width+j)*4+3]/255;
+ctx.clearRect(toDownloadData[k][3]*10+j*10,toDownloadData[k][0]+i*10,10,10);
+ctx.fillRect(toDownloadData[k][3]*10+j*10,toDownloadData[k][0]+i*10,10,10);
+}
+}
+
+var a=toDownload.getImageData(toDownloadData[k][4],toDownloadData[k][5]+toDownloadData[k][3],(toDownloadData[k][1]+toDownloadData[k][3])*2,toDownloadData[k][2]);
+console.log(a);
+for(let i=0;i<a.height;i++){
+for(let j=0;j<a.width;j++){
+ctx.fillStyle="#"+hex(a.data[(i*a.width+j)*4])+hex(a.data[(i*a.width+j)*4+1])+hex(a.data[(i*a.width+j)*4+2]);
+ctx.globalAlpha=a.data[(i*a.width+j)*4+3]/255;
+ctx.clearRect(0+j*10,toDownloadData[k][0]+toDownloadData[k][3]*10+i*10,10,10);
+ctx.fillRect(0+j*10,toDownloadData[k][0]+toDownloadData[k][3]*10+i*10,10,10);
+}
+}
+
+var a=toDownload.getImageData(toDownloadData[k][4]+toDownloadData[k][3]+toDownloadData[k][1],toDownloadData[k][5],toDownloadData[k][1],toDownloadData[k][3]);
+for(let i=0;i<a.height;i++){
+for(let j=0;j<a.width;j++){
+ctx.fillStyle="#"+hex(a.data[((a.height-1-i)*a.width+a.width-1-j)*4])+hex(a.data[((a.height-1-i)*a.width+a.width-1-j)*4+1])+hex(a.data[((a.height-1-i)*a.width+a.width-1-j)*4+2]);
+ctx.globalAlpha=a.data[((a.height-1-i)*a.width+a.width-1-j)*4+3]/255;
+ctx.clearRect(toDownloadData[k][3]*10+j*10,toDownloadData[k][0]+(toDownloadData[k][2]+toDownloadData[k][3])*10+i*10,10,10);
+ctx.fillRect(toDownloadData[k][3]*10+j*10,toDownloadData[k][0]+(toDownloadData[k][2]+toDownloadData[k][3])*10+i*10,10,10);
+}
+}
+
+
+var a=toDownload.getImageData(toDownloadData[k][6]+toDownloadData[k][3],toDownloadData[k][7],toDownloadData[k][1],toDownloadData[k][3]);
+for(let i=0;i<a.height;i++){
+for(let j=0;j<a.width;j++){
+ctx.fillStyle="#"+hex(a.data[(i*a.width+j)*4])+hex(a.data[(i*a.width+j)*4+1])+hex(a.data[(i*a.width+j)*4+2]);
+ctx.globalAlpha=a.data[(i*a.width+j)*4+3]/255;
+ctx.clearRect(toDownloadData[k][3]*10+j*10+350,toDownloadData[k][0]+i*10,10,10);
+ctx.fillRect(toDownloadData[k][3]*10+j*10+350,toDownloadData[k][0]+i*10,10,10);
+}
+}
+
+var a=toDownload.getImageData(toDownloadData[k][6],toDownloadData[k][3]+toDownloadData[k][7],(toDownloadData[k][1]+toDownloadData[k][3])*2,toDownloadData[k][2]);
+for(let i=0;i<a.height;i++){
+for(let j=0;j<a.width;j++){
+ctx.fillStyle="#"+hex(a.data[(i*a.width+j)*4])+hex(a.data[(i*a.width+j)*4+1])+hex(a.data[(i*a.width+j)*4+2]);
+ctx.globalAlpha=a.data[(i*a.width+j)*4+3]/255;
+ctx.clearRect(0+j*10+350,toDownloadData[k][0]+toDownloadData[k][3]*10+i*10,10,10);
+ctx.fillRect(0+j*10+350,toDownloadData[k][0]+toDownloadData[k][3]*10+i*10,10,10);
+}
+}
+
+var a=toDownload.getImageData(toDownloadData[k][6]+toDownloadData[k][3]+toDownloadData[k][1],toDownloadData[k][7],toDownloadData[k][1],toDownloadData[k][3]);
+for(let i=0;i<a.height;i++){
+for(let j=0;j<a.width;j++){
+ctx.fillStyle="#"+hex(a.data[((a.height-1-i)*a.width+a.width-1-j)*4])+hex(a.data[((a.height-1-i)*a.width+a.width-1-j)*4+1])+hex(a.data[((a.height-1-i)*a.width+a.width-1-j)*4+2]);
+ctx.globalAlpha=a.data[((a.height-1-i)*a.width+a.width-1-j)*4+3]/255;
+ctx.clearRect(toDownloadData[k][3]*10+j*10+350,toDownloadData[k][0]+(toDownloadData[k][2]+toDownloadData[k][3])*10+i*10,10,10);
+ctx.fillRect(toDownloadData[k][3]*10+j*10+350,toDownloadData[k][0]+(toDownloadData[k][2]+toDownloadData[k][3])*10+i*10,10,10);
+}
+}
+}
+ctx.globalAlpha=1;
+uploaded=false;
+}
+}
+if(window.confirm("っていうかデフォルトスキン用意する?")){
+let skinTimer=setTimeout(initSkin,100);
+}
 timer=setInterval(tick,100);
 //一つのcanvasでやった方がよくね？　　tableとgetBoundingClientRect()の使い方も覚えておこう!
 //いや、offsetX便利すぎ、
